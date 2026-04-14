@@ -23,7 +23,7 @@
   "scripts": {
     "build": "node script/build.cjs",
     "build:zip": "node script/build.cjs zip",
-    "dev": "node script/dev.cjs"
+    "dev": "node scri/dev.cjs"
   },
   "dependencies": {
     "archiver": "^7.0.1",
