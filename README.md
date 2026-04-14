@@ -1,6 +1,6 @@
 # LeviLamina LSE Web Template
 
-这是一个用于快速创建包含前端和后端的 LeviLamina LSE (LeviScript Engine) 模块的模板，旨在简化 Minecraft 服务器插件开发中 Web 功能的集成流程。
+这是一个用于快速创建包含前端和后端的 LeviLamina LSE 网页的模板，旨在简化 Minecraft 服务器插件开发中 Web 功能的集成流程。
 
 ## 项目简介
 
@@ -40,6 +40,10 @@ levilamina-lse-web-template/
 ├── tsconfig.json
 └── README.md
 ```
+
+## 预览
+
+![Preview](./assets/image.png)
 
 ## 快速开始
 
