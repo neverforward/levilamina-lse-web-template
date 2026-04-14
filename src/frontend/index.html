@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Levilamina LSE Web Template</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Levilamina LSE Web Template</h1>
+  
+  <div class="container">
+    <h2>Run Command</h2>
+    <input type="text" id="commandInput" placeholder="Enter command to run...">
+    <button id="runcmdbtn">Run Command</button>
+  </div>
+  
+  <div id="resultContainer" class="container" style="display: none;">
+    <h3>Command Result:</h3>
+    <div id="commandResult" class="result-box"></div>
+    <div id="commandStatus" class="status-indicator"></div>
+  </div>
+
+  <!-- 聊天日志区域 -->
+  <div class="container" id="chatContainer">
+    <h2>Chat Log</h2>
+    <div id="chatLog" class="chat-log"></div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
