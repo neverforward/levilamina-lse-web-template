@@ -23,12 +23,13 @@
   "scripts": {
     "build": "node script/build.cjs",
     "build:zip": "node script/build.cjs zip",
-    "dev": "node scri/dev.cjs"
+    "dev": "node script/dev.cjs"
   },
   "dependencies": {
     "archiver": "^7.0.1",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "tree-kill": "^1.2.2"
   },
   "devDependencies": {
     "@levimc-lse/types": "^2.18.7",

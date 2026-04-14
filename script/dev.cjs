@@ -3,6 +3,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const chalkFactory = require('chalk');
 const winston = require('winston');
+const kill = require('tree-kill');
 
 // 创建chalk实例
 const chalk = chalkFactory.default ? chalkFactory.default : chalkFactory;
@@ -203,16 +204,16 @@ async function buildAndDeploy() {
         const frontendDist = './dist/frontend';
         if (fs.existsSync(frontendSrc)) {
             logger.info(chalk.blue(`正在复制前端资源文件 ...`));
-            
+
             if (!fs.existsSync(frontendDist)) {
                 fs.mkdirSync(frontendDist, { recursive: true });
             }
-            
+
             const frontendFiles = fs.readdirSync(frontendSrc);
             for (const file of frontendFiles) {
                 const srcPath = path.join(frontendSrc, file);
                 const destPath = path.join(frontendDist, file);
-                
+
                 if (fs.statSync(srcPath).isFile()) {
                     fs.copyFileSync(srcPath, destPath);
                     logger.info(chalk.green(`✓ 复制前端文件: ${file}`));
@@ -244,11 +245,26 @@ async function buildAndDeploy() {
 
         logger.info(chalk.green('项目构建完成！'));
 
-        if (!mcServerProcess) startMinecraftServer();
+        if (mcServerProcess) stopServer();
+        startMinecraftServer();
 
-        logger.info(chalk.green(`构建完成，已部署到服务器，请在Minecraft服务器中输入'll reload ${mod_name}'来重载插件`));
+        logger.info(chalk.green(`构建完成，已部署到服务器，正在重启服务器`));
     } catch (error) {
         logger.error(chalk.red('构建失败:'), error.message);
+    }
+}
+
+// 停止服务器
+function stopServer() {
+    if (mcServerProcess) {
+        logger.info(chalk.green('正在停止Minecraft服务器...'));
+        kill(mcServerProcess.pid, 'SIGTERM', (err) => {
+            if (err) {
+                logger.error(chalk.red('停止服务器时出错:'), err.message);
+            } else {
+                logger.info(chalk.green('服务器已停止'));
+            }
+        });
     }
 }
 
@@ -263,12 +279,6 @@ function startMinecraftServer() {
 
     logger.info(chalk.green('正在启动Minecraft服务器...'));
     mcServerProcess = spawn(bedrockExe, { cwd: mcServerPath, stdio: 'inherit', shell: true });
-
-    mcServerProcess.on('close', (code) => {
-        logger.info(chalk.green(`Minecraft服务器已关闭，退出码: ${code}`));
-        mcServerProcess = null;
-        process.exit(0);
-    });
 
     mcServerProcess.on('error', (err) => {
         logger.error(chalk.red('启动Minecraft服务器时发生错误:'), err.message);
